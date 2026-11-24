@@ -1,85 +1,134 @@
+-- Фишингтік URL-сілтемелерді анықтау жүйесі: деректер қоры (PostgreSQL)
+DROP TABLE IF EXISTS url_features CASCADE;
+DROP TABLE IF EXISTS scans CASCADE;
+DROP TABLE IF EXISTS features CASCADE;
+DROP TABLE IF EXISTS ml_models CASCADE;
+DROP TABLE IF EXISTS urls CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    user_id       INT PRIMARY KEY,
+    username      VARCHAR(50)  NOT NULL,
+    email         VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('user', 'admin') DEFAULT 'user',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role          VARCHAR(20)  NOT NULL,
+    created_at    TIMESTAMP    NOT NULL
 );
 
-CREATE TABLE url_scans (
-    scan_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    target_url TEXT NOT NULL,
-    risk_score DECIMAL(5,2) NOT NULL,
-    status ENUM('Safe', 'Phishing', 'Suspicious') NOT NULL,
-    scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+CREATE TABLE urls (
+    url_id        INT PRIMARY KEY,
+    url_text      VARCHAR(2048) NOT NULL,
+    domain        VARCHAR(255)  NOT NULL,
+    first_seen_at TIMESTAMP     NOT NULL
 );
 
 CREATE TABLE ml_models (
-    model_id INT AUTO_INCREMENT PRIMARY KEY,
-    model_name VARCHAR(100) NOT NULL,
-    version VARCHAR(20) NOT NULL,
-    accuracy DECIMAL(5,2) NOT NULL,
-    trained_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    model_id   INT PRIMARY KEY,
+    name       VARCHAR(100) NOT NULL,
+    algorithm  VARCHAR(50)  NOT NULL,
+    accuracy   NUMERIC(5,4) NOT NULL,
+    trained_at TIMESTAMP    NOT NULL
 );
 
--- M:N аралық кесте (scan_models)
-CREATE TABLE scan_models (
-    scan_id INT NOT NULL,
-    model_id INT NOT NULL,
-    confidence DECIMAL(5,2) NOT NULL,
-    PRIMARY KEY (scan_id, model_id),
-    FOREIGN KEY (scan_id) REFERENCES url_scans(scan_id) ON DELETE CASCADE,
-    FOREIGN KEY (model_id) REFERENCES ml_models(model_id) ON DELETE CASCADE
+CREATE TABLE features (
+    feature_id  INT PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL,
+    description VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE reports (
-    report_id INT AUTO_INCREMENT PRIMARY KEY,
-    scan_id INT NOT NULL,
-    details TEXT NOT NULL,
-    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (scan_id) REFERENCES url_scans(scan_id) ON DELETE CASCADE
+CREATE TABLE scans (
+    scan_id     INT PRIMARY KEY,
+    user_id     INT          NOT NULL REFERENCES users(user_id),
+    url_id      INT          NOT NULL REFERENCES urls(url_id),
+    model_id    INT          NOT NULL REFERENCES ml_models(model_id),
+    verdict     VARCHAR(20)  NOT NULL,
+    probability NUMERIC(5,4) NOT NULL,
+    scanned_at  TIMESTAMP    NOT NULL
 );
 
-CREATE TABLE complaints (
-    complaint_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    scan_id INT NOT NULL,
-    description TEXT NOT NULL,
-    status ENUM('Pending', 'Reviewed', 'Resolved') DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (scan_id) REFERENCES url_scans(scan_id) ON DELETE CASCADE
+-- M:N аралық кесте: urls <-> features
+CREATE TABLE url_features (
+    url_feature_id INT PRIMARY KEY,
+    url_id         INT NOT NULL REFERENCES urls(url_id),
+    feature_id     INT NOT NULL REFERENCES features(feature_id),
+    value          NUMERIC(12,4) NOT NULL,
+    UNIQUE (url_id, feature_id)
 );
 
--- Бастапқы деректер (INSERT)
-INSERT INTO users (username, email, password_hash, role) VALUES
-('assylm_k', 'assylm@aues.kz', 'hash_pass_1', 'user'),
-('ermek_dev', 'ermek@aues.kz', 'hash_pass_2', 'user'),
-('admin_sys', 'admin@aues.kz', 'hash_admin_0', 'admin');
+INSERT INTO users VALUES
+(1,'aigerim','aigerim@mail.kz','hash_a1','user','2026-09-01 10:00:00'),
+(2,'nurlan','nurlan@mail.kz','hash_n2','user','2026-09-03 12:30:00'),
+(3,'dana','dana@mail.kz','hash_d3','user','2026-09-10 09:15:00'),
+(4,'admin','admin@phishdetect.kz','hash_ad','admin','2026-08-25 08:00:00');
 
-INSERT INTO ml_models (model_name, version, accuracy) VALUES
-('Random Forest Classifier', 'v1.2', 96.40),
-('Neural Network PhishDetect', 'v2.0', 98.15),
-('SVM Baseline Model', 'v1.0', 91.80);
+INSERT INTO urls VALUES
+(1,'https://www.google.com/search?q=test','google.com','2026-10-01 10:00:00'),
+(2,'http://paypa1-secure-login.xyz/verify','paypa1-secure-login.xyz','2026-10-02 11:00:00'),
+(3,'http://192.168.10.5/kaspi/login.php','192.168.10.5','2026-10-03 14:20:00'),
+(4,'https://egov.kz/cms/kk','egov.kz','2026-10-04 09:40:00'),
+(5,'http://halyk-bonus.top/@claim','halyk-bonus.top','2026-10-05 16:10:00');
 
-INSERT INTO url_scans (user_id, target_url, risk_score, status) VALUES
-(1, 'http://secure-login-bank-update.com', 94.50, 'Phishing'),
-(1, 'https://github.com/kuralbaiasylym-code', 2.10, 'Safe'),
-(2, 'http://free-prize-winner-2026.net', 88.70, 'Phishing');
+INSERT INTO ml_models VALUES
+(1,'RF_v1','RandomForest',0.9420,'2026-10-10 12:00:00'),
+(2,'XGB_v1','XGBoost',0.9610,'2026-10-20 12:00:00'),
+(3,'LR_baseline','LogisticRegression',0.8975,'2026-10-05 12:00:00');
 
-INSERT INTO scan_models (scan_id, model_id, confidence) VALUES
-(1, 1, 95.00),
-(1, 2, 98.20),
-(2, 2, 99.10),
-(3, 1, 87.50),
-(3, 3, 90.00);
+INSERT INTO features VALUES
+(1,'url_length','URL ұзындығы'),
+(2,'has_ip','Домен орнына IP-мекенжай болуы (1/0)'),
+(3,'num_dots','URL-дегі нүктелер саны'),
+(4,'has_at_symbol','@ таңбасының болуы (1/0)'),
+(5,'is_https','HTTPS қолданылуы (1/0)');
 
-INSERT INTO reports (scan_id, details) VALUES
-(1, 'High phishing probability detected due to suspicious domain keywords.'),
-(2, 'SSL certificate valid, domain reputation clean.');
+INSERT INTO scans VALUES
+(1,1,1,2,'legitimate',0.0210,'2026-11-01 10:05:00'),
+(2,1,2,2,'phishing',0.9730,'2026-11-01 10:07:00'),
+(3,2,3,2,'phishing',0.9215,'2026-11-02 18:30:00'),
+(4,2,4,1,'legitimate',0.0480,'2026-11-03 09:00:00'),
+(5,3,5,2,'phishing',0.9890,'2026-11-04 20:10:00'),
+(6,3,1,1,'legitimate',0.0350,'2026-11-05 11:45:00');
 
-INSERT INTO complaints (user_id, scan_id, description, status) VALUES
-(2, 3, 'False positive check requested for promotional domain.', 'Pending');
+INSERT INTO url_features VALUES
+(1,1,1,36),
+(2,1,2,0),
+(3,1,3,2),
+(4,1,4,0),
+(5,1,5,1),
+(6,2,1,37),
+(7,2,2,0),
+(8,2,3,1),
+(9,2,4,0),
+(10,2,5,0),
+(11,3,1,36),
+(12,3,2,1),
+(13,3,3,3),
+(14,3,4,0),
+(15,3,5,0),
+(16,4,1,21),
+(17,4,2,0),
+(18,4,3,1),
+(19,4,4,0),
+(20,4,5,1),
+(21,5,1,31),
+(22,5,2,0),
+(23,5,3,1),
+(24,5,4,1),
+(25,5,5,0);
+
+-- Сұраныс 1: 3+ кестені JOIN (қолданушы, URL, модель бойынша фишинг табылғандар)
+SELECT u.username, ur.url_text, m.name AS model, s.verdict, s.probability
+FROM scans s
+JOIN users u     ON u.user_id  = s.user_id
+JOIN urls ur     ON ur.url_id  = s.url_id
+JOIN ml_models m ON m.model_id = s.model_id
+WHERE s.verdict = 'phishing'
+ORDER BY s.probability DESC;
+
+-- Сұраныс 2: GROUP BY (әр қолданушы бойынша тексеру саны және фишинг саны)
+SELECT u.username,
+       COUNT(*) AS total_scans,
+       SUM(CASE WHEN s.verdict = 'phishing' THEN 1 ELSE 0 END) AS phishing_count
+FROM scans s
+JOIN users u ON u.user_id = s.user_id
+GROUP BY u.username
+ORDER BY total_scans DESC, u.username;

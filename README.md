@@ -16,8 +16,8 @@
 7. Жүйе әкімшісі пайдаланушылар жіберген сілтемелерді тексеріп, деректер базасын жаңартады және ML моделін қайта оқытады.
 
 ## Құжаттама
-* Activity: өтеу өтінімін беру
-* Sequence: өтеу өтінімін беру
+* [Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.png) | [(drawio)](docs/analysis/activity-check-url.drawio)
+* [Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.png) | [(drawio)](docs/analysis/sequence-check-url.png)
 * [DFD: контекстік диаграмма](docs/analysis/dfd-context.png) | [(drawio)](docs/analysis/dfd-context.drawio)
 * [DFD: 0-деңгейлі диаграмма](docs/analysis/dfd-level0.png) | [(drawio)](docs/analysis/dfd-level0.drawio)
 * [DFD: 1-деңгейлі диаграмма](docs/analysis/dfd-level1.png) | [(drawio)](docs/analysis/dfd-level1.drawio)

@@ -1,26 +1,13 @@
-# Phishing URL Detector
-
-Машиналық оқыту алгоритмдерін қолдана отырып, веб-сілтемелер мен электрондық хаттардағы фишингтік шабуылдарды анықтауға арналған жүйе.
-
-## Пайдаланушылар
-* Пайдаланушы (User)
-* Жүйе әкімшісі (Admin)
-
-## Талаптар
-1. Пайдаланушы тексергісі келетін күмәнді URL-сілтемені веб-интерфейске енгізіп, сканерлеуге жібереді.
-2. Жүйе енгізілген сілтеменің синтаксистік және домендік белгілерін автоматты түрде бөліп алады.
-3. Машиналық оқыту моделі сілтемені талдап, оны «Қауіпсіз» немесе «Фишингтік» деп жіктейді.
-4. Пайдаланушы экраннан тексеру нәтижесін, қауіп деңгейін және егжей-тегжейлі есепті көреді.
-5. Тіркелген пайдаланушы өзінің бұрын тексерген сілтемелер тарихын жеке кабинетінде қарай алады.
-6. Пайдаланушы жүйе қате анықтаған жағдайда жаңа фишингтік сілтеме туралы шағым жібере алады.
-7. Жүйе әкімшісі пайдаланушылар жіберген сілтемелерді тексеріп, деректер базасын жаңартады және ML моделін қайта оқытады.
+# Фишингтік URL-сілтемелерді анықтау жүйесі (Phishing URL Detector)
 
 ## Құжаттама
-* [Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.png) | [(drawio)](docs/analysis/activity-check-url.drawio)
-* [Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.png) | [(drawio)](docs/analysis/sequence-check-url.png)
-* [DFD: контекстік диаграмма](docs/analysis/dfd-context.png) | [(drawio)](docs/analysis/dfd-context.drawio)
-* [DFD: 0-деңгейлі диаграмма](docs/analysis/dfd-level0.png) | [(drawio)](docs/analysis/dfd-level0.drawio)
-* [DFD: 1-деңгейлі диаграмма](docs/analysis/dfd-level1.png) | [(drawio)](docs/analysis/dfd-level1.drawio)
-* [ERD: деректер қорының моделі](docs/database/erd.png) | [(drawio)](docs/database/erd.drawio)
-* [SQL: деректер қорының схемасы және сұраныстар](docs/database/schema.sql)
-* [SQL: сұраныстар нәтижесі](docs/database/query-results.png)
+
+* [Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.drawio)
+* [Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.drawio)
+* [Контекстік DFD диаграммасы](docs/analysis/dfd-context.drawio)
+* [0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.drawio)
+* [1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.drawio)
+* [ERD диаграммасы](docs/database/erd.drawio)
+* [База схемасы және INSERT](docs/database/schema.sql)
+* [SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql)
+* [SQL сұраныстарының нәтижесі](docs/database/query-results.png)

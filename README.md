@@ -1,66 +1,66 @@
-# \# Фишингтік URL-сілтемелерді анықтау жүйесі (Phishing URL Detector)
+#### \# Фишингтік URL-сілтемелерді анықтау жүйесі (Phishing URL Detector)
 
-# 
+#### 
 
-# Машиналық оқыту алгоритмдерін қолдана отырып, веб-сілтемелер мен электрондық хаттардағы фишингтік шабуылдарды автоматты түрде анықтайтын және талдайтын веб-қосымша.
+#### Машиналық оқыту алгоритмдерін қолдана отырып, веб-сілтемелер мен электрондық хаттардағы фишингтік шабуылдарды автоматты түрде анықтайтын және талдайтын веб-қосымша.
 
-# 
+#### 
 
-# \## Пайдаланушылар
+#### \## Пайдаланушылар
 
-# \- Пайдаланушы (User)
+#### \- Пайдаланушы (User)
 
-# \- Жүйе әкімшісі (Admin)
+#### \- Жүйе әкімшісі (Admin)
 
-# 
+#### 
 
-# \## Талаптар
+#### \## Талаптар
 
-# 1\. Пайдаланушы тексергіші келетін күмәнді URL-сілтемені веб-интерфейске енгізіп, сканерлеуге жібереді.
+#### 1\. Пайдаланушы тексергіші келетін күмәнді URL-сілтемені веб-интерфейске енгізіп, сканерлеуге жібереді.
 
-# 2\. Жүйе енгізілген сілтеменің синтаксистік және домендік белгілерін автоматты түрде бөліп алады.
+#### 2\. Жүйе енгізілген сілтеменің синтаксистік және домендік белгілерін автоматты түрде бөліп алады.
 
-# 3\. Машиналық оқыту моделі сілтемені талдап, оны «Қауіпсіз» немесе «Фишингтік» деп жіктейді.
+#### 3\. Машиналық оқыту моделі сілтемені талдап, оны «Қауіпсіз» немесе «Фишингтік» деп жіктейді.
 
-# 4\. Пайдаланушы экраннан тексеру нәтижесін, қауіп деңгейін және егжей-тегжейлі есепті көреді.
+#### 4\. Пайдаланушы экраннан тексеру нәтижесін, қауіп деңгейін және егжей-тегжейлі есепті көреді.
 
-# 5\. Тіркелген пайдаланушы өзінің бұрын тексерген сілтемелер тарихын жеке кабинетінде қарай алады.
+#### 5\. Тіркелген пайдаланушы өзінің бұрын тексерген сілтемелер тарихын жеке кабинетінде қарай алады.
 
-# 6\. Жүйе әкімшісі пайдаланушылар жіберген сілтемелерді тексеріп, деректер базасын жаңартады және ML моделін баптайды.
+#### 6\. Жүйе әкімшісі пайдаланушылар жіберген сілтемелерді тексеріп, деректер базасын жаңартады және ML моделін баптайды.
 
-# 
+#### 
 
-# \## Құжаттама
+#### \## Құжаттама
 
-# \- \[Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.png)
+#### \- \[Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.png)
 
-# \- \[Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.png)
+#### \- \[Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.png)
 
-# \- \[Контекстік DFD диаграммасы](docs/analysis/dfd-context.png)
+#### \- \[Контекстік DFD диаграммасы](docs/analysis/dfd-context.png)
 
-# \- \[0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.png)
+#### \- \[0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.png)
 
-# \- \[1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.png)
+#### \- \[1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.png)
 
-# \- \[ERD диаграммасы](docs/database/erd.png)
+#### \- \[ERD диаграммасы](docs/database/erd.png)
 
-# \- \[База схемасы және INSERT](docs/database/schema.sql)
+#### \- \[База схемасы және INSERT](docs/database/schema.sql)
 
-# \- \[SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql)
+#### \- \[SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql)
 
-# \- \[SQL сұраныстарының нәтижесі](docs/database/query-results.png)
+#### \- \[SQL сұраныстарының нәтижесі](docs/database/query-results.png)
 
-# Фишингтік URL-сілтемелерді анықтау жүйесі (Phishing URL Detector)
+#### Фишингтік URL-сілтемелерді анықтау жүйесі (Phishing URL Detector)
 
-## Құжаттама
+#### Құжаттама
 
-* [Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.drawio)
-* [Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.drawio)
-* [Контекстік DFD диаграммасы](docs/analysis/dfd-context.drawio)
-* [0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.drawio)
-* [1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.drawio)
-* [ERD диаграммасы](docs/database/erd.drawio)
-* [База схемасы және INSERT](docs/database/schema.sql)
-* [SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql)
-* [SQL сұраныстарының нәтижесі](docs/database/query-results.png)
+* #### [Activity диаграммасы: URL тексеру](docs/analysis/activity-check-url.drawio)
+* #### [Sequence диаграммасы: URL тексеру](docs/analysis/sequence-check-url.drawio)
+* #### [Контекстік DFD диаграммасы](docs/analysis/dfd-context.drawio)
+* #### [0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.drawio)
+* #### [1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.drawio)
+* #### [ERD диаграммасы](docs/database/erd.drawio)
+* #### [База схемасы және INSERT](docs/database/schema.sql)
+* #### [SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql)
+* #### [SQL сұраныстарының нәтижесі](docs/database/query-results.png)
 

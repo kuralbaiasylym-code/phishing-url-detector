@@ -16,9 +16,11 @@
 7. Жүйе әкімшісі пайдаланушылар жіберген сілтемелерді тексеріп, деректер базасын жаңартады және ML моделін қайта оқытады.
 
 ## Құжаттама
-* [Контекстік DFD диаграммасы](docs/analysis/dfd-context.png) | [.drawio](docs/analysis/dfd-context.drawio)
-* [0-деңгей DFD диаграммасы](docs/analysis/dfd-level0.png) | [.drawio](docs/analysis/dfd-level0.drawio)
-* [1-деңгей DFD диаграммасы](docs/analysis/dfd-level1.png) | [.drawio](docs/analysis/dfd-level1.drawio)
-* [ERD диаграммасы](docs/database/erd.png) | [.drawio](docs/database/erd.drawio)
-* [База схемасы және INSERT](docs/database/schema.sql)
-* [SQL сұраныстары (JOIN және GROUP BY)](docs/database/queries.sql) | [Нәтиже скриншоты](docs/database/query-results.png)
+* Activity: өтеу өтінімін беру
+* Sequence: өтеу өтінімін беру
+* [DFD: контекстік диаграмма](docs/analysis/dfd-context.png) | [(drawio)](docs/analysis/dfd-context.drawio)
+* [DFD: 0-деңгейлі диаграмма](docs/analysis/dfd-level0.png) | [(drawio)](docs/analysis/dfd-level0.drawio)
+* [DFD: 1-деңгейлі диаграмма](docs/analysis/dfd-level1.png) | [(drawio)](docs/analysis/dfd-level1.drawio)
+* [ERD: деректер қорының моделі](docs/database/erd.png) | [(drawio)](docs/database/erd.drawio)
+* [SQL: деректер қорының схемасы және сұраныстар](docs/database/schema.sql)
+* [SQL: сұраныстар нәтижесі](docs/database/query-results.png)

@@ -1,20 +1,17 @@
--- 1-сұраныс: 3 кестелік JOIN (users, url_scans, scan_models/ml_models)
-SELECT 
-    u.username,
-    s.target_url,
-    s.status,
-    m.model_name,
-    sm.confidence
-FROM users u
-JOIN url_scans s ON u.user_id = s.user_id
-JOIN scan_models sm ON s.scan_id = sm.scan_id
-JOIN ml_models m ON sm.model_id = m.model_id;
+-- Сұраныс 1: 3+ кестені JOIN (қолданушы, URL, модель бойынша фишинг табылғандар)
+SELECT u.username, ur.url_text, m.name AS model, s.verdict, s.probability
+FROM scans s
+JOIN users u     ON u.user_id  = s.user_id
+JOIN urls ur     ON ur.url_id  = s.url_id
+JOIN ml_models m ON m.model_id = s.model_id
+WHERE s.verdict = 'phishing'
+ORDER BY s.probability DESC;
 
--- 2-сұраныс: GROUP BY арқылы әр қолданушының тексерген сілтемелер саны мен орташа қауіп деңгейі
-SELECT 
-    u.username,
-    COUNT(s.scan_id) AS total_scans,
-    ROUND(AVG(s.risk_score), 2) AS avg_risk_score
-FROM users u
-JOIN url_scans s ON u.user_id = s.user_id
-GROUP BY u.username;
+-- Сұраныс 2: GROUP BY (әр қолданушы бойынша тексеру саны және фишинг саны)
+SELECT u.username,
+       COUNT(*) AS total_scans,
+       SUM(CASE WHEN s.verdict = 'phishing' THEN 1 ELSE 0 END) AS phishing_count
+FROM scans s
+JOIN users u ON u.user_id = s.user_id
+GROUP BY u.username
+ORDER BY total_scans DESC, u.username;
